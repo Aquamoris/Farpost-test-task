@@ -3,3 +3,13 @@ export const getAllBulletins = async () => {
 
     return response.json();
 }
+
+export const postBulletins = async (data: any, url: string) => {
+    await fetch(`${url}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).catch(error => console.error(error));
+}

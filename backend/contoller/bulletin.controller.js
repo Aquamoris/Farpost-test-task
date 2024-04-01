@@ -10,12 +10,27 @@ class BulletinController {
     }
 
     async getAllBulletins(req, res){
-        const bulletins = await db.query(`SELECT * FROM bulletin`);
+        const bulletins = await db.query(`SELECT * FROM bulletin LIMIT 10`);
         res.json(bulletins.rows);
     }
 
     async getBulletin(req, res) {
         res.json('ok');
+    }
+
+    async postApprovedBulletins(req) {
+        console.log('Approved');
+        console.log(req.body);
+    }
+
+    async postDeclinedBulletins(req) {
+        console.log('Declined');
+        console.log(req.body);
+    }
+
+    async postEscalatedBulletins(req){
+        console.log('Escalated');
+        console.log(req.body);
     }
 }
 

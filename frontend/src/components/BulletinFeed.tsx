@@ -2,10 +2,11 @@ import styles from './BulletinFeed.module.scss';
 import Bulletin from "./Bulletin.tsx";
 import {useEffect, useState} from "react";
 import type {BulletinType} from "../utils/types/Bulletin.type.ts";
-import {getAllBulletins} from "../api/bulletin.api.ts";
+import {getAllBulletins, postBulletins} from "../api/bulletin.api.ts";
 import { useHotkeys } from 'react-hotkeys-hook';
 import Popup from "./Popup.tsx";
 import ReasonForm from "./ReasonForm.tsx";
+import {checkedBulletinAmount} from "../utils/helpers/checkedBulletinAmount.ts";
 
 function BulletinFeed() {
     const [bulletins, setBulletins] = useState<BulletinType[]>([]);
@@ -112,6 +113,18 @@ function BulletinFeed() {
         if (bulletins.length !== 0) {
             setPopupActive(true);
             setOperationType('escalate');
+        }
+    });
+
+    useHotkeys('F7', () => {
+        const checkedAmount = checkedBulletinAmount(approvedBulletins, declinedBulletins, escalatedBulletins);
+
+        if (bulletins.length === checkedAmount) {
+            Promise.all([
+                postBulletins([...approvedBulletins], 'http://localhost:3300/api/approvedBulletins'),
+                postBulletins([...declinedBulletins], 'http://localhost:3300/api/declinedBulletins'),
+                postBulletins([...escalatedBulletins], 'http://localhost:3300/api/escalatedBulletins'),
+            ])
         }
     });
 
