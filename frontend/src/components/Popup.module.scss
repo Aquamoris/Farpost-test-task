@@ -1,0 +1,47 @@
+.modal {
+  height: 100dvh;
+  width: 100vw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modalContent {
+  background-color: var(--color-white);
+  transform: scale(0.5);
+  transition: 0.3s;
+  width: 40vw;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.modalContent.active {
+  transform: scale(1);
+}
+
+@media screen and (max-width: 1000px) {
+  .modalContent {
+    width: 60vw;
+  }
+}
+
+@media screen and (max-height: 768px) {
+  .modalContent {
+    width: 100vw;
+  }
+}

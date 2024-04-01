@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  width: 160px;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+
+  grid-column: 2/3;
+}
+
+.menuItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  &Ellipse {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  &HotKey {
+    color: #777777;
+  }
+}
