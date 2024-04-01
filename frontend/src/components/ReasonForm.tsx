@@ -1,5 +1,3 @@
-import styles from './ReasonForm.module.scss';
-
 interface Props {
     value: string,
     handler: (e: React.FormEvent<HTMLTextAreaElement>) => void,
@@ -8,10 +6,10 @@ interface Props {
 
 function ReasonForm({ handler, value, setActive }: Props) {
     return (
-        <div className={styles.form}>
+        <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
             <h3>Введите причину отклонения/примечание</h3>
             <p>Нажмите 'Enter' для продолжения</p>
-            <textarea className='textarea' value={value} onChange={handler}/>
+            <textarea className='textarea' value={value} onChange={handler} autoFocus={true}/>
             <button className='button' onClick={() => setActive(false)}>Отправить</button>
         </div>
     );

@@ -5,8 +5,8 @@ import type {BulletinType} from "../utils/types/Bulletin.type.ts";
 import {getAllBulletins, postBulletins} from "../api/bulletin.api.ts";
 import { useHotkeys } from 'react-hotkeys-hook';
 import Popup from "./Popup.tsx";
-import ReasonForm from "./ReasonForm.tsx";
 import {checkedBulletinAmount} from "../utils/helpers/checkedBulletinAmount.ts";
+import NoteChose from "./NoteChose.tsx";
 
 function BulletinFeed() {
     const [bulletins, setBulletins] = useState<BulletinType[]>([]);
@@ -32,6 +32,7 @@ function BulletinFeed() {
         }
     }
 
+    // Need refactotring!
     useEffect(() => {
         if (bulletins.length > 0 && !popupActive) {
             const bulletinToOperation = bulletins[currentBulletin];
@@ -56,10 +57,11 @@ function BulletinFeed() {
         }
     }, [popupActive]);
 
-    console.log('render');
-    console.log(approvedBulletins);
-    console.log(declinedBulletins);
-    console.log(escalatedBulletins);
+    // Логгирование для тестирования
+    // console.log('render');
+    // console.log(approvedBulletins);
+    // console.log(declinedBulletins);
+    // console.log(escalatedBulletins);
 
     async function fetchBulletins() {
         const data = await getAllBulletins();
@@ -104,18 +106,21 @@ function BulletinFeed() {
 
     useHotkeys('Esc', () => {
         if (bulletins.length !== 0) {
-            setPopupActive(true);
             setOperationType('decline');
+            setPopupActive(true);
         }
     });
 
     useHotkeys('Shift + Enter', () => {
         if (bulletins.length !== 0) {
-            setPopupActive(true);
             setOperationType('escalate');
+            setPopupActive(true);
         }
     });
 
+    // К сожадению не успел настроить пагинацию на бэке, поэтому мы получаем те же самые объявления,
+    // но они, естественно не обработаны
+    // На беке максимально примитивная логика по категориям объявления выводятся в консоль
     useHotkeys('F7', () => {
         const checkedAmount = checkedBulletinAmount(approvedBulletins, declinedBulletins, escalatedBulletins);
 
@@ -165,7 +170,11 @@ function BulletinFeed() {
                 </div>
             }
             <Popup active={popupActive} setActive={setPopupActive}>
-                <ReasonForm value={reason} handler={reasonChangeHandler} setActive={setPopupActive}/>
+                {/*<ReasonForm value={reason} handler={reasonChangeHandler} setActive={setPopupActive}/>*/}
+                <NoteChose operation={operationType}
+                           value={reason}
+                           handler={reasonChangeHandler}
+                           setActive={setPopupActive} />
             </Popup>
         </div>
     );
