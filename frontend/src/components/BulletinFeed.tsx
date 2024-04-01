@@ -12,9 +12,7 @@ function BulletinFeed() {
     const [currentBulletin, setCurrentBulletin] = useState<number>(0);
 
     const [approvedBulletins, setApprovedBulletins] = useState(new Set<BulletinType>());
-    // const [declinedBulletins, setDeclinedBulletins] = useState<BulletinType[]>([]);
     const [declinedBulletins, setDeclinedBulletins] = useState(new Set<BulletinType>());
-    // const [escalatedBulletins, setEscalatedBulletins] = useState<BulletinType[]>([]);
     const [escalatedBulletins, setEscalatedBulletins] = useState(new Set<BulletinType>());
 
     const [popupActive, setPopupActive] = useState<boolean>(false);
@@ -22,6 +20,10 @@ function BulletinFeed() {
     const [reason, setReason] = useState<string>('');
 
     function checkBulletinAvailability(element: BulletinType, setsToCheck: Set<BulletinType>[]) {
+        if ('reason' in element) {
+            delete element.reason;
+        }
+
         for (const set of setsToCheck) {
             if (set.has(element)) {
                 set.delete(element);
@@ -48,7 +50,6 @@ function BulletinFeed() {
                 }
 
                 setEscalatedBulletins(prev => new Set([...prev, bulletinToOperation]));
-                // setEscalatedBulletins([...escalatedBulletins, bulletinToEscalate]);
             }
             nextBulletin();
         }
@@ -94,14 +95,6 @@ function BulletinFeed() {
 
             checkBulletinAvailability(bulletinToApprove, [declinedBulletins, escalatedBulletins])
 
-            // if (declinedBulletins.has(bulletinToApprove)) {
-            //     declinedBulletins.delete(bulletinToApprove);
-            // }
-            //
-            // if (escalatedBulletins.has(bulletinToApprove)) {
-            //     escalatedBulletins.delete(bulletinToApprove);
-            // }
-
             setApprovedBulletins(prev => new Set([...prev, bulletinToApprove]));
 
             nextBulletin();
@@ -121,7 +114,6 @@ function BulletinFeed() {
             setOperationType('escalate');
         }
     });
-
 
     return (
         <div className={styles.wrapper}>
