@@ -28,8 +28,8 @@ const conn = new pg.Client(config);
 
 // const queryBody = `SELECT * FROM bulletin LIMIT 10`;
 
-// const queryBody = `INSERT INTO bulletin ("publishDate", "publishDateString", "ownerId", "ownerLogin", "bulletinSubject", "bulletinText", "bulletinImages")
-// VALUES (1234567890, '20:21, сегодня', 5, 'YoYoYo', 'JS vs TS', 'React vs Vue vs Angular', '{"https://static.baza.farpost.ru/v/1510541224458_hugeBlock", "https://static.baza.farpost.ru/v/1510541224458_hugeBlock"}');`
+// const queryBody = `INSERT INTO bulletin ("id", "publishDate", "publishDateString", "ownerId", "ownerLogin", "bulletinSubject", "bulletinText", "bulletinImages")
+// VALUES (11, 1234567890, '20:21, сегодня', 5, 'YoYoYo', 'Делем мебел под заказ', 'Это очень крутое объявление', '{"https://static.baza.farpost.ru/v/1510541224458_hugeBlock", "https://static.baza.farpost.ru/v/1510541224458_hugeBlock"}');`
 
 conn.connect((err) => {
     if (err) throw err;

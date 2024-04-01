@@ -61,6 +61,12 @@ function BulletinFeed() {
     console.log(declinedBulletins);
     console.log(escalatedBulletins);
 
+    async function fetchBulletins() {
+        const data = await getAllBulletins();
+
+        setBulletins(data);
+    }
+
     const reasonChangeHandler = (e: React.FormEvent<HTMLTextAreaElement>) => {
         setReason(e.currentTarget.value);
     };
@@ -78,12 +84,6 @@ function BulletinFeed() {
     };
 
     useHotkeys('Enter', () => {
-        async function fetchBulletins() {
-            const data = await getAllBulletins();
-
-            setBulletins(data);
-        }
-
         if (bulletins.length === 0) {
             fetchBulletins();
             setCurrentBulletin(0);
@@ -124,7 +124,18 @@ function BulletinFeed() {
                 postBulletins([...approvedBulletins], 'http://localhost:3300/api/approvedBulletins'),
                 postBulletins([...declinedBulletins], 'http://localhost:3300/api/declinedBulletins'),
                 postBulletins([...escalatedBulletins], 'http://localhost:3300/api/escalatedBulletins'),
-            ])
+            ]);
+
+            setApprovedBulletins(new Set<BulletinType>());
+            setDeclinedBulletins(new Set<BulletinType>());
+            setEscalatedBulletins(new Set<BulletinType>());
+
+            fetchBulletins();
+            setCurrentBulletin(0);
+
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        } else {
+            alert('Вы обработали не все записи');
         }
     });
 
@@ -154,7 +165,7 @@ function BulletinFeed() {
                 </div>
             }
             <Popup active={popupActive} setActive={setPopupActive}>
-                <ReasonForm value={reason} handler={reasonChangeHandler}/>
+                <ReasonForm value={reason} handler={reasonChangeHandler} setActive={setPopupActive}/>
             </Popup>
         </div>
     );

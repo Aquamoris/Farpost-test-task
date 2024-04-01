@@ -43,8 +43,10 @@ const Bulletin = (
                     </Link>
                 </div>
             </section>
-            <section className={styles.bulletinBody}>
+            <section className={styles.bulletinTitle}>
                 <h1>{bulletinSubject}</h1>
+            </section>
+            <section className={styles.bulletinBody}>
                 <article>
                     {bulletinText}
                 </article>

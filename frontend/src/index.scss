@@ -6,6 +6,7 @@
   --color-bg: #F7F7F7;
   --color-font: #4A4A4A;
   --color-shadow: #00000040;
+  --color-green: 48,186,143;
 }
 
 *, *:before, *:after {
@@ -38,6 +39,30 @@ a {
   text-decoration: none;
   color: var(--color-blue);
   cursor: pointer;
+}
+
+button {
+  width: fit-content;
+  padding: 10px 15px;
+  margin: 0 auto;
+  border-radius: 6px;
+  cursor: pointer;
+
+  border: 1px solid rgb(var(--color-green));
+  color: rgb(var(--color-green));
+
+  background-color: rgba(var(--color-green), 0);
+
+  transition: 0.3s;
+
+  &:hover {
+    background-color: rgba(var(--color-green), 0.3);
+  }
+
+  &:active {
+    background-color: rgba(var(--color-green), 0.4);
+    transform: scale(0.95);
+  }
 }
 
 textarea {
