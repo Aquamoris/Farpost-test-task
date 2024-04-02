@@ -1,7 +1,12 @@
 export const getAllBulletins = async () => {
-    const response = await fetch('http://localhost:3300/api/bulletin');
+    try {
+        const response = await fetch('http://localhost:3300/api/bulletin');
 
-    return response.json();
+        return response.json();
+    }
+    catch (e) {
+        throw new Error(`Произошла ошбика: ${e}`);
+    }
 }
 
 export const postBulletins = async (data: any, url: string) => {
