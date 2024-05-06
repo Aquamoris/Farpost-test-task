@@ -11,7 +11,12 @@ import NoteChose from "./NoteChose.tsx";
 function BulletinFeed() {
     const [bulletins, setBulletins] = useState<BulletinType[]>([]);
     const [currentBulletin, setCurrentBulletin] = useState<number>(0);
+    const [currentBulletinsPage, setCurrentBulletinsPage] = useState<number>(1);
 
+    // Сто процентов в данном случае нужно было решать данную задачу через Map,
+    // я подумал об этом решении как только отправил на проверку,
+    // мы уже обсудили этот момент на первом тех. собеседовании, но я решил не менять своё первоначальное решение
+    // чтобы было честно
     const [approvedBulletins, setApprovedBulletins] = useState(new Set<BulletinType>());
     const [declinedBulletins, setDeclinedBulletins] = useState(new Set<BulletinType>());
     const [escalatedBulletins, setEscalatedBulletins] = useState(new Set<BulletinType>());
@@ -63,9 +68,12 @@ function BulletinFeed() {
     // console.log(declinedBulletins);
     // console.log(escalatedBulletins);
 
-    async function fetchBulletins() {
-        const data = await getAllBulletins();
+    async function fetchBulletins(page: number = 1) {
+        const data = await getAllBulletins(page);
 
+        if (data.length === 0) {
+            alert('Объявления закончились');
+        }
         setBulletins(data);
     }
 
@@ -118,8 +126,6 @@ function BulletinFeed() {
         }
     });
 
-    // К сожадению не успел настроить пагинацию на бэке, поэтому мы получаем те же самые объявления,
-    // но они, естественно не обработаны
     // На беке максимально примитивная логика по категориям объявления выводятся в консоль
     useHotkeys('F7', () => {
         const checkedAmount = checkedBulletinAmount(approvedBulletins, declinedBulletins, escalatedBulletins);
@@ -135,10 +141,14 @@ function BulletinFeed() {
             setDeclinedBulletins(new Set<BulletinType>());
             setEscalatedBulletins(new Set<BulletinType>());
 
-            fetchBulletins();
+            const newBulletinsPage = currentBulletinsPage + 1;
+            setCurrentBulletinsPage(prev => prev + 1);
+
+            fetchBulletins(newBulletinsPage);
             setCurrentBulletin(0);
 
             window.scrollTo({top: 0, behavior: 'smooth'});
+            alert('Объявления отправлены');
         } else {
             alert('Вы обработали не все записи');
         }

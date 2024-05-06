@@ -1,3 +1,4 @@
+const bulletinsToModerate = require('../bulletinsDataBase');
 const db = require('../db');
 
 class BulletinController {
@@ -10,8 +11,19 @@ class BulletinController {
     }
 
     async getAllBulletins(req, res){
-        const bulletins = await db.query(`SELECT * FROM bulletin LIMIT 10`);
-        res.json(bulletins.rows);
+        // Обращение к БД на Yandex Cloud
+
+        // const bulletins = await db.query(`SELECT * FROM bulletin LIMIT 10`);
+        // res.json(bulletins.rows);
+
+        const maxPage = Math.ceil(bulletinsToModerate.length / 10);
+        let page = req.query.page;
+
+        if (page > maxPage) {
+            page = 1;
+        }
+
+        res.json(bulletinsToModerate.slice(page * 10 - 10, page * 10));
     }
 
     async getBulletin(req, res) {

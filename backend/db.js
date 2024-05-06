@@ -2,18 +2,22 @@
 const fs = require("fs");
 const pg = require("pg");
 
-const config = {
-    connectionString:
-        "postgres://user:rootroot@rc1b-ijl3ozunnfgcoazs.mdb.yandexcloud.net:6432/db",
-    ssl: {
-        rejectUnauthorized: true,
-        ca: fs
-            .readFileSync("/Users/nikitapestrak/.postgresql/root.crt")
-            .toString(),
-    },
-};
+// Изначально реализовал БД через кластер Яндекс Cloud, но удалил его после просмотра тестового
+// тк он кушал деньги. Теперь создал небольшую бд в файле bulletinsDataBase.js
+// Этот файл решил просто закомментировать
 
-const conn = new pg.Client(config);
+// const config = {
+//     connectionString:
+//         "postgres://user:rootroot@rc1b-ijl3ozunnfgcoazs.mdb.yandexcloud.net:6432/db",
+//     ssl: {
+//         rejectUnauthorized: true,
+//         ca: fs
+//             .readFileSync("/Users/nikitapestrak/.postgresql/root.crt")
+//             .toString(),
+//     },
+// };
+//
+// const conn = new pg.Client(config);
 
 // const queryBody = `CREATE TABLE bulletin(
 //     id SERIAL PRIMARY KEY,
@@ -31,9 +35,9 @@ const conn = new pg.Client(config);
 // const queryBody = `INSERT INTO bulletin ("id", "publishDate", "publishDateString", "ownerId", "ownerLogin", "bulletinSubject", "bulletinText", "bulletinImages")
 // VALUES (11, 1234567890, '20:21, сегодня', 5, 'YoYoYo', 'Делем мебел под заказ', 'Это очень крутое объявление', '{"https://static.baza.farpost.ru/v/1510541224458_hugeBlock", "https://static.baza.farpost.ru/v/1510541224458_hugeBlock"}');`
 
-conn.connect((err) => {
-    if (err) throw err;
-});
+// conn.connect((err) => {
+//     if (err) throw err;
+// });
 
 // conn.query(queryBody, (err, q) => {
 //     if (err) throw err;
@@ -41,4 +45,4 @@ conn.connect((err) => {
 //     conn.end();
 // });
 
-module.exports = conn;
+// module.exports = conn;
